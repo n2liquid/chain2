@@ -7,11 +7,15 @@
     box-sizing: border-box;
   }
 
+  body, html {
+    height: 100vh;
+    overflow: hidden;
+  }
+
   body {
-    width: 640px;
-    height: 480px;
-    margin: 40px auto;
-    padding: 0 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     font-family: 'Roboto Mono', monospace;
     font-size: 16px;
     letter-spacing: 0.1em;
@@ -36,5 +40,43 @@
     max-width: 60%;
     margin: 10px auto;
   }
+
+  .hidden {
+    display: none;
+  }
+
+  .stageStack {
+    display: flex;
+    flex-direction: column;
+    width: 640px;
+    margin: 40px 0;
+  }
+
+  .imgArea {
+    flex-shrink: 0;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 1px dashed lightgrey;
+  }
+
+  .imgArea img {
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .chainStoryTarget {
+    flex-grow: 1;
+    min-height: 0;
+    max-height: 100%;
+    overflow-y: auto;
+    border: 1px dashed lightgrey;
+    padding: 0 10px;
+  }
 </style>
+<div class="stageStack">
+  <div class="imgArea hidden"></div>
+  <div class="chainStoryTarget"></div>
+</div>
 <script src="webBundle.js"></script>

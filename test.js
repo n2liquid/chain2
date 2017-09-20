@@ -9,12 +9,21 @@ let {
   str,
 } = require('./lib');
 
+let $ = document.querySelector.bind(document);
+
 module.exports = () => runFlow({
   start: async () => {
     await clr();
 
-    await img('title.jpg');
-    await ln();
+    let imgArea = $('.imgArea');
+    let img = document.createElement('img');
+
+    img.src = 'title.jpg';
+
+    imgArea.innerHTML = '';
+    imgArea.appendChild(img);
+
+    imgArea.classList.remove('hidden');
 
     await ln(`<sdl:40>Episode 1`);
     await ln(`The First Turnabout`);
@@ -35,8 +44,15 @@ module.exports = () => runFlow({
   '???': async () => {
     await clr();
 
-    await img('wat.gif');
-    await ln();
+    let imgArea = $('.imgArea');
+    let img = document.createElement('img');
+
+    img.src = 'wat.gif';
+
+    imgArea.innerHTML = '';
+    imgArea.appendChild(img);
+
+    imgArea.classList.remove('hidden');
 
     await ln('- Back');
     await ln();
@@ -48,6 +64,9 @@ module.exports = () => runFlow({
 
   storyStart: async () => {
     await clr();
+
+    $('.imgArea').classList.add('hidden');
+
     await ln(`<sec:1><sdl:0>Episode 1<sec:1>`);
     await ln(`The First Turnabout<sec:3>`);
     await ln();
