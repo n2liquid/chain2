@@ -22,7 +22,7 @@ module.exports = st => runFlow({
     await heading(`City of Fyrya`);
     await ln();
 
-    //return 'EV2000';
+    //return 'EV3000';
   },
 
   EV1500: async () => {
@@ -75,9 +75,9 @@ module.exports = st => runFlow({
 
     await choice({
       'to the dungeon': () => 'EV3000',
-      'to the pub': () => 'EV4000',
-      'to the inn': () => 'EV5000',
-      'to the city office': () => 'EV6000',
+      //'to the pub': () => 'EV4000',
+      //'to the inn': () => 'EV5000',
+      //'to the city office': () => 'EV6000',
     });
   },
 
@@ -89,7 +89,7 @@ module.exports = st => runFlow({
 
     await speech(async () => {
       await sspk('Guard');
-      await ln(`<sdl:20>Halt!<sec:0.8><sdl:40> Where's your adventurer's badge?<sec:1>`);
+      await ln(`<sdl:10>Halt!<sec:0.8><sdl:40> Where's your adventurer's badge?<sec:1>`);
       await ln(`I can't let you in without one.<sec:1>`);
       await ln(`You can get one at the city office.<sec:0.5>`);
       await ln(`Come back when you have one.<sec:2>`);
