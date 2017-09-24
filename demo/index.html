@@ -1,7 +1,8 @@
 <!doctype html>
 <meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
 <meta name="viewport" content="width=device-width,minimum-scale=0.5,maximum-scale=0.5">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<link href="animate.css" rel="stylesheet">
 <style>
   * {
     box-sizing: border-box;
@@ -55,6 +56,16 @@
 
   .hidden {
     display: none;
+  }
+
+  .chainWaitCursor:before {
+    content: '▼';
+    position: relative;
+    padding-left: 4px;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-name: flash;
   }
 
   .stageStack {
