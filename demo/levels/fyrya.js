@@ -92,7 +92,7 @@ module.exports = st => runFlow({
       await ln(`<sdl:10>Halt!<sec:0.8><sdl:40> Where's your adventurer's badge?<sec:1>`);
       await ln(`I can't let you in without one.<sec:1>`);
       await ln(`You can get one at the city office.<sec:0.5>`);
-      await ln(`Come back when you have one.<sec:2>`);
+      await ln(`Come back when you have one.<w>`);
     });
 
     await ln();
