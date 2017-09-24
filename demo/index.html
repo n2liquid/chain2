@@ -43,6 +43,16 @@
     margin: 10px auto;
   }
 
+  hr {
+    border: 0;
+  }
+
+  hr:before {
+    content: '~';
+    display: block;
+    text-align: center;
+  }
+
   .hidden {
     display: none;
   }
@@ -68,17 +78,34 @@
     margin: 0 auto;
   }
 
-  .chainStoryTarget {
+  .storyArea {
     flex-grow: 1;
     min-height: 0;
     max-height: 100%;
+    overflow-x: hidden;
     overflow-y: auto;
     border: 1px dashed lightgrey;
     padding: 8px 10px;
   }
+
+  .yggHeading {
+    text-align: center;
+  }
+
+  .yggHeading:before {
+    content: '~ ';
+  }
+
+  .yggHeading:after {
+    content: ' ~';
+  }
+
+  .yggHeading:empty {
+    display: none;
+  }
 </style>
 <div class="stageStack">
   <div class="imgArea hidden"></div>
-  <div class="chainStoryTarget"></div>
+  <div class="storyArea chainStoryTarget"></div>
 </div>
-<script src="webBundle.js"></script>
+<script src="bundle.js"></script>
