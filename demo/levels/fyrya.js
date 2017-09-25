@@ -83,10 +83,10 @@ module.exports = ctx => runFlow({
     await ln();
 
     await choice({
-      'to the dungeon': () => 'EV3000',
-      //'to the pub': () => 'EV4000',
-      //'to the inn': () => 'EV5000',
-      //'to the city office': () => 'EV6000',
+      dungeon: () => 'EV3000',
+      //pub: () => 'EV4000',
+      //inn: () => 'EV5000',
+      //'city office': () => 'EV6000',
     });
   },
 

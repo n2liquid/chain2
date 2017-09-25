@@ -40,7 +40,7 @@ module.exports = ctx => runFlow({
       await ln();
 
       return choice({
-        'new game': async () => {
+        new: async () => {
           await newGame(ctx);
         },
       });
@@ -50,7 +50,7 @@ module.exports = ctx => runFlow({
       await ln();
 
       return choice({
-        'new game': async () => {
+        new: async () => {
           await ln(`Are you sure you want to restart the game?<sec:0.5>`);
           await ln(`Doing so will destroy the currently saved adventure.`);
           await ln();
@@ -68,7 +68,7 @@ module.exports = ctx => runFlow({
           });
         },
 
-        'load game': async () => {
+        load: async () => {
           await ln(`<sdl:10>Game loaded!<w>`);
           await ln();
 
