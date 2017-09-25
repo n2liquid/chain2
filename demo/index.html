@@ -23,16 +23,20 @@
     font-size: 16px;
     letter-spacing: 0.1em;
     white-space: pre;
+    background-color: midnightblue;
+    color: white;
     user-select: none;
     cursor: default;
   }
 
   input {
+    outline: 0;
     border: none;
     font-size: inherit;
     font-family: inherit;
     letter-spacing: inherit;
-    outline: 0;
+    background-color: transparent;
+    color: inherit;
   }
 
   input:disabled {
@@ -96,9 +100,7 @@
     flex-grow: 1;
     min-height: 0;
     max-height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    /* border: 1px dashed lightgrey; */
+    overflow: hidden;
     padding: 8px 10px;
   }
 
