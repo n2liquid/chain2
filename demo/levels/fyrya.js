@@ -1,6 +1,7 @@
 let {
   choice,
   clr,
+  input,
   ln,
   runFlow,
   saveState,
@@ -13,8 +14,6 @@ let {
   heading,
   hr,
 } = require('../lib');
-
-let $ = document.querySelector.bind(document);
 
 module.exports = ctx => runFlow({
   EV1000: async () => {
@@ -83,11 +82,11 @@ module.exports = ctx => runFlow({
     await ln(`- To the city office`);
     await ln();
 
-    await choice({
+    return choice({
       dungeon: () => 'EV3000',
       //pub: () => 'EV4000',
       //inn: () => 'EV5000',
-      //'city office': () => 'EV6000',
+      'city office': () => 'EV6000',
     });
   },
 
@@ -105,6 +104,142 @@ module.exports = ctx => runFlow({
       await ln(`Come back when you have one.<w>`);
     });
 
+    await ln();
+
+    return 'EV1000';
+  },
+
+  EV6000: async () => {
+    await clr();
+
+    await heading(`Fyrya's Adventurer Registration Office`);
+    await ln();
+
+    await ln(`<sdl:30>The city office is located inside this fancy-looking`);
+    await ln(`building you've just found yourself in.<w>`);
+    await ln();
+
+    await ln(`You see people carrying all sorts of equipment doing`);
+    await ln(`busy work.<sec:0.5> They don't look like novices,<sec:0.1> so it looks`);
+    await ln(`like the adventurer registration office does more`);
+    await ln(`than just issuing exploration permits.<w>`);
+    await ln();
+
+    await ln(`Amidst all the apparent rush, a calm middle-aged man`);
+    await ln(`talks to you.<w>`);
+    await ln();
+
+    await speech(async () => {
+      await sspk('Officer');
+      await ln(`Hi there!<w>`);
+      await ln(`I see you don't have a badge yet.<w>`);
+      await ln(`Looking for your very own exploration`);
+      await ln(`permit?<w>`);
+      await ln(`I can help you with that!<w>`);
+    });
+
+    await ln();
+
+    await ln(`You tighten the grip around the hilt.<w>`);
+    await ln();
+
+    await ln(`It's real!<sec:0.5> You'll soon be putting all your hard work`);
+    await ln(`sword practice to use on those ugly beasts!<w>`);
+    await ln();
+
+    await speech(async () => {
+      await sspk('Officer');
+      await ln(`I like that sparkle in your eyes.<w>`);
+      await ln(`We'll see how long that fire burns.<w>`);
+      await ln();
+
+      await ln(`Are you becoming a real warrior,<sec:0.3> or are you`);
+      await ln(`soon running away in the face of the`);
+      await ln(`hardships of this life you chose?<w>`);
+      await ln();
+
+      await ln(`<sdl:5>Do you have what it takes!?<w>`);
+      await ln(`<sdl:30>Time sure will tell!<sec:0.5> Hah!<w>`);
+      await ln();
+
+      await ln(`Alright.<sec:1> All I really need before I can issue`);
+      await ln(`you an adventurer's badge and a Level 1~2`);
+      await ln(`exploration permit is your name and some`);
+      await ln(`basic information.<w>`);
+      await ln();
+
+      await ln(`Please write your name right here,<sec:0.3> then`);
+      await ln(`fill the rest of the form, please.<w>`);
+      await ln();
+    });
+
+    await ln();
+
+    await ln(`Please enter your name:`);
+    await ln();
+
+    let { chara } = ctx.st;
+
+    let name = chara[1000].name = await input({
+      default: chara[1000].name,
+      maxLength: 10,
+    });
+
+    await ln(`You hurriedly fill in your name as well as the rest`);
+    await ln(`of the form and sign it.<w>`);
+    await ln();
+
+    await speech(async () => {
+      await sspk('Officer');
+      await ln(`Alright, ${name}!<sec:0.5> Here's your badge.<w>`);
+    });
+
+    await ln();
+
+    await ln(`★★★ Adventurer's Badge acquired! ★★★<w>`);
+    await ln();
+
+    await speech(async () => {
+      await sspk('Officer');
+      await ln(`You might have already heard of it, but I`);
+      await ln(`should definitely mention:<w>`);
+      await ln();
+
+      await ln(`Our Great Queen's magical Grace spans our`);
+      await ln(`whole Kingdom.<sec:0.8> If you die in combat in a`);
+      await ln(`dungeon, you'll be time-travelled back to the`);
+      await ln(`nearest city's rebirth point.<w>`);
+      await ln();
+
+      await ln(`Our City of Fyrya's good Guild is also`);
+      await ln(`offering some gold and items for`);
+      await ln(`newly-registered novices.<w>`);
+      await ln(`I'm sure you'll make good use of them!<w>`);
+    });
+
+    await ln();
+
+    await ln(`★★★ 5x Life Pots acquired! ★★★<w>`);
+    await ln(`★★★ 1000 Gold acquired! ★★★<w>`);
+    await ln();
+
+    await speech(async () => {
+      await sspk('Officer');
+      await ln(`Before you charge carelessly into the`);
+      await ln(`dungeon,<sec:0.1> it's always a good idea to pay a`);
+      await ln(`visit to the weapon shop!<w>`);
+      await ln(`Practice swords are hardly cut for real`);
+      await ln(`combat.<w>`);
+      await ln();
+
+      await ln(`That's it!<w>`);
+      await ln(`We hope you'll enjoy Fyrya's deep, rich`);
+      await ln(`dungeons.<w>`);
+    });
+
+    await ln();
+
+    await ln(`You say goodbye to the good officer and rush outside.<w>`);
     await ln();
 
     return 'EV1000';
