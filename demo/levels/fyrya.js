@@ -32,7 +32,10 @@ module.exports = ctx => runFlow({
   },
 
   EV1500: async () => {
-    await ln(`<sdl:30>Welcome to Fyrya,<sec:0.3> the most popular dungeon city of the`);
+    await ln(`<sdl:0>Guy with pamphlets:`);
+    await ln();
+
+    await ln(`<sdl:30>"Welcome to Fyrya,<sec:0.3> the most popular dungeon city of the`);
     await ln(`Kingdom of Yggdrasil!<w>`);
     await ln();
 
@@ -62,7 +65,7 @@ module.exports = ctx => runFlow({
     await ln();
 
     await ln(`Well,<sec:0.3> feel free to explore the city first,<sec:0.3> traveler!<sec:0.8>`);
-    await ln(`Do make yourself home!<w>`);
+    await ln(`Do make yourself home!"<w>`);
     await ln();
 
     await hr();
