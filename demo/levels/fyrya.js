@@ -51,14 +51,15 @@ module.exports = ctx => runFlow({
     await ln(`precisely what you're here for?"<w>`);
     await ln();
 
-    await ln(` "You'll have to register at the Adventure Registration`);
-    await ln(`Office before you're allowed into the dungeon."<w>`);
+    await ln(` "You'll have to register at the Adventurer`);
+    await ln(`Registration Office before you're allowed into the`);
+    await ln(`dungeon."<w>`);
     await ln();
 
-    await ln(` "... Don't gimme that look!<sec:0.8> They'll be offering you free`);
-    await ln(`automatic post-death time-traveling under the Queen's`);
-    await ln(`magical Grace.<sec:0.8> Judging by your rusty sword,<sec:0.2> you'll be`);
-    await ln(`using the service a lot!"<w>`);
+    await ln(` "... Don't gimme that look!<sec:0.8> They'll be offering you`);
+    await ln(`free automatic post-death time-traveling under the`);
+    await ln(`Queen's magical Grace.<sec:0.8> Judging by your rusty sword,<sec:0.2>`);
+    await ln(`you'll be using the service a lot!"<w>`);
     await ln();
 
     await ln(` "Well,<sec:0.3> feel free to explore the city first,<sec:0.3> traveler!<sec:0.8>`);
