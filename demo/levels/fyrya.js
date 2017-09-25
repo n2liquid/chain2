@@ -3,6 +3,7 @@ let {
   clr,
   ln,
   runFlow,
+  saveState,
   sec,
   speech,
   sspk,
@@ -15,18 +16,23 @@ let {
 
 let $ = document.querySelector.bind(document);
 
-module.exports = st => runFlow({
+module.exports = ctx => runFlow({
   EV1000: async () => {
     await clr();
+
+    ctx.st.levelId = 'fyrya';
+    saveState(ctx.st);
 
     await heading(`City of Fyrya`);
     await ln();
 
-    //return 'EV3000';
+    if (!ctx.st.fyrya.firstTime) {
+      return 'EV2000';
+    }
   },
 
   EV1500: async () => {
-    await ln(`<sdl:30>Welcome to Fyrya,<sec:0.4> the most popular dungeon city of the`);
+    await ln(`<sdl:30>Welcome to Fyrya,<sec:0.3> the most popular dungeon city of the`);
     await ln(`Kingdom of Yggdrasil!<w>`);
     await ln();
 
@@ -61,10 +67,13 @@ module.exports = st => runFlow({
 
     await hr();
     await ln();
+
+    ctx.st.fyrya.firstTime = false;
+    saveState(ctx.st);
   },
 
   EV2000: async () => {
-    await ln(`Where are you going?<sec:0.3>`);
+    await ln(`<sdl:30>Where are you going?<sec:0.3>`);
     await ln();
 
     await ln(`- To the dungeon`);
@@ -97,6 +106,6 @@ module.exports = st => runFlow({
 
     await ln();
 
-    return 'EV2000';
+    return 'EV1000';
   },
 });
