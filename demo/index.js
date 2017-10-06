@@ -4,8 +4,8 @@ let {
   loadState,
 } = require('chain');
 
-let ctx = require('./context');
-let lv = require('./levels');
+let ctx = require('./ctx');
+let lv = require('./lv');
 
 document.addEventListener('DOMContentLoaded', () => {
   let st = loadState();
