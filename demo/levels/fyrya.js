@@ -15,6 +15,8 @@ let {
   hr,
 } = require('../lib');
 
+let lv = require('.');
+
 module.exports = ctx => runFlow({
   EV1000: async () => {
     await clr();
@@ -105,6 +107,12 @@ module.exports = ctx => runFlow({
     });
 
     await ln();
+
+    let ret = await lv.fyryaDungeon1F(ctx);
+
+    if (ret === 'backToTitle') {
+      return ['breakFlow', ret];
+    }
 
     return 'EV1000';
   },

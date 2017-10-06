@@ -27,54 +27,56 @@ let newGame = async ctx => {
 
 module.exports = ctx => runFlow({
   title: async () => {
-    await clr();
+    while (true) {
+      await clr();
 
-    await heading(`Yggdrasil Dungeon`);
-    await ln();
-
-    await sdl(30);
-
-    await ln(`- New Game`);
-
-    if (!ctx.st.gameStarted) {
+      await heading(`Yggdrasil Dungeon`);
       await ln();
 
-      return choice({
-        new: async () => {
-          await newGame(ctx);
-        },
-      });
-    }
-    else {
-      await ln(`- Load Game`);
-      await ln();
+      await sdl(30);
 
-      return choice({
-        new: async () => {
-          await ln(`Are you sure you want to restart the game?<sec:0.5>`);
-          await ln(`Doing so will destroy the currently saved adventure.`);
-          await ln();
+      await ln(`- New Game`);
 
-          await ln(`- Yes`);
-          await ln(`- No`);
-          await ln();
+      if (!ctx.st.gameStarted) {
+        await ln();
 
-          return choice({
-            yes: async () => {
-              await newGame(ctx);
-            },
+        return choice({
+          new: async () => {
+            await newGame(ctx);
+          },
+        });
+      }
+      else {
+        await ln(`- Load Game`);
+        await ln();
 
-            no: () => 'title',
-          });
-        },
+        await choice({
+          new: async () => {
+            await ln(`Are you sure you want to restart the game?<sec:0.5>`);
+            await ln(`Doing so will destroy the currently saved adventure.`);
+            await ln();
 
-        load: async () => {
-          await ln(`<sdl:10>Game loaded!<w>`);
-          await ln();
+            await ln(`- Yes`);
+            await ln(`- No`);
+            await ln();
 
-          await lv[ctx.st.levelId](ctx);
-        },
-      });
+            return choice({
+              yes: async () => {
+                await newGame(ctx);
+              },
+
+              no: () => 'title',
+            });
+          },
+
+          load: async () => {
+            await ln(`<sdl:10>Game loaded!<w>`);
+            await ln();
+
+            await lv[ctx.st.levelId](ctx);
+          },
+        });
+      }
     }
   },
 });
