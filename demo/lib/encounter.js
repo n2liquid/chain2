@@ -29,8 +29,6 @@ module.exports = async (ctx, opt) => {
 
   let turns = ['party', 'foes'];
 
-  await clr();
-  await sec(1);
   await sdl(10);
 
   switch (opt.ambushType) {
@@ -191,9 +189,6 @@ module.exports = async (ctx, opt) => {
     }
 
     if (foes.every(x => !x.active)) {
-      await ln(`Elmina shakes rests of slime off from her blade.<w>`);
-      await ln();
-
       await ln(`Elmina got 10 EXP.<w>`);
       await ln(`Elmina got 3 GP.<w>`);
       await clr();

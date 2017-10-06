@@ -36,6 +36,7 @@ module.exports = ctx => runFlow({
   EV1500: async () => {
     await ln(`You hear something nasty coming from behind. It's a`);
     await ln(`slime!<w>`);
+    await ln();
 
     let battleResult = await encounter(ctx, {
       foeGroup: 1000,
