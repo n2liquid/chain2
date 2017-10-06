@@ -1,3 +1,12 @@
+// TODO: Load party from ctx.st.
+// TODO: Load foeGroup / foes from ctx.
+// TODO: Implement real monster actions.
+// TODO: Calculate and award real EXP.
+// TODO: Generate and award real drops.
+// TODO: Implement item usage.
+// TODO: Implement guarding.
+// TODO: Implement fleeing.
+
 let cloneDeep = require('lodash/cloneDeep');
 
 let {
@@ -9,36 +18,23 @@ let {
   sec,
 } = require('chain');
 
-let centered = require('./centered');
+let centered = require('../centered');
+
+let attack = require('./attack');
 
 module.exports = async (ctx, opt) => {
-  //let foeGroup = ctx.foeGroups[opt.foeGroup];
+  let btst = {};
 
-  let foeGroup = { foes: [
-    { name: 'Slime', active: true, hp: 2, maxHp: 10, mp: 0, maxMp: 0 },
-    { name: 'Slime', active: true, hp: 2, maxHp: 10, mp: 0, maxMp: 0 },
-  ]};
-
-  let foes = foeGroup.foes.map(x => cloneDeep(x));
-
-  //let { party } = ctx.st;
-
-  let party = [
-    { name: 'Elmina', active: true, hp: 60, maxHp: 60, mp: 10, maxMp: 10 },
-  ];
-
-  let turns = ['party', 'foes'];
-
-  await sdl(10);
+  btst.turns = ['party', 'foes'];
 
   switch (opt.ambushType) {
     case 'partyUnprepared':
-      turns.reverse();
+      btst.turns.reverse();
       await ln(`You've been caught unprepared.<w>`);
       break;
   }
 
-  if (turns[0] === 'party') {
+  if (btst.turns[0] === 'party') {
     await ln(`You have the advantage.<w>`);
   }
   else {
@@ -48,12 +44,39 @@ module.exports = async (ctx, opt) => {
   await clr();
   await sec(1);
 
+  btst.entities = {};
+
+  //let foeGroup = ctx.foeGroups[opt.foeGroup];
+
+  let foeGroup = { foes: [
+    { name: 'Slime', active: true, hp: 2, maxHp: 10, mp: 0, maxMp: 0 },
+    { name: 'Slime', active: true, hp: 2, maxHp: 10, mp: 0, maxMp: 0 },
+  ]};
+
+  let foes = foeGroup.foes.map(x => cloneDeep(x));
+
+  for (let [i, x] of foes.entries()) {
+    btst.entities[`F${i + 1 }`] = x;
+  }
+
+  //let { party } = ctx.st;
+
+  let party = [
+    { name: 'Elmina', active: true, hp: 60, maxHp: 60, mp: 10, maxMp: 10 },
+  ];
+
+  for (let [i, x] of party.entries()) {
+    btst.entities[`P${i + 1 }`] = x;
+  }
+
+  await sdl(10);
+
   let printStatus = async () => {
     await sdl(0);
 
     for (let [i, x] of foes.entries()) {
       x.active && await ln(
-        `  ${x.name}[E${i + 1}]: ${x.hp}/${x.maxHp} HP, ${x.mp}/${x.maxMp} MP`
+        `  ${x.name}[F${i + 1}]: ${x.hp}/${x.maxHp} HP, ${x.mp}/${x.maxMp} MP`
       );
     }
 
@@ -70,7 +93,9 @@ module.exports = async (ctx, opt) => {
 
   while (true) {
     let playHandlers = {
-      party: async x => {
+      party: async id => {
+        let x = btst.entities[id];
+
         while (true) {
           await printStatus();
           await sdl(10);
@@ -78,82 +103,52 @@ module.exports = async (ctx, opt) => {
           await ln(`- Attack`);
           await ln(`- Guard`);
           await ln(`- Item`);
-          await ln(`- Run`);
+          await ln(`- Flee`);
           await ln();
 
-          let done = await choice({
+          let next = await choice({
             attack: async () => {
               await ln(`Whom?`);
               await ln();
 
-              let [target, id] = await (async () => {
+              let targetId = await (async () => {
                 while (true) {
                   let x = (await input()).toUpperCase();
 
                   if (x.toLowerCase() === 'back') {
-                    return [];
+                    return;
                   }
 
-                  let targetType = x[0];
-                  let targetNum = Number(x.slice(1));
-
-                  let targets =
-                    { E: foes, P: party }[targetType];
-
-                  if (!targets) {
+                  if (!btst.entities[x]) {
                     continue;
                   }
 
-                  let target = targets.find((x, i) =>
-                    x.active && i === targetNum - 1
-                  );
-
-                  if (!target) {
-                    continue;
-                  }
-
-                  return [target, x];
+                  return x;
                 }
               })();
 
-              if (!target) {
-                return false;
+              if (!targetId) {
+                return;
               }
 
-              await ln(`${x.name} attacks!<w>`);
-              await ln();
+              await attack(btst, id, targetId);
 
-              let targetLabel = `${target.name}[${id}]`;
-              let hit = Math.round(Math.random() * 2) + 1;
-
-              await ln(
-                `${targetLabel} loses ${hit} HP.<w>`
-              );
-
-              target.hp = Math.max(0, target.hp - hit);
-
-              if (!target.hp) {
-                target.active = false;
-                await ln(`${targetLabel} is no more.<w>`);
-              }
-
-              await ln();
+              return 'break';
             },
           });
 
-          if (done !== false) {
+          if (next === 'break') {
             break;
           }
         }
       },
 
-      foes: async (x, i) => {
-        await ln(`${x.name}[E${i + 1}] struggles.<w>`);
-        await ln();
+      foes: async id => {
+        await attack(btst, id, 'P1');
       },
     };
 
-    for (let x of turns) {
+    for (let x of btst.turns) {
       await clr();
 
       if (x === 'foes') {
@@ -176,7 +171,9 @@ module.exports = async (ctx, opt) => {
           continue;
         }
 
-        await playHandlers[x](y, i);
+        let prefix = { party: 'P', foes: 'F' }[x];
+
+        await playHandlers[x](`${prefix}${i + 1}`);
       }
     }
 
