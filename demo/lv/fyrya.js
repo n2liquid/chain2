@@ -4,7 +4,6 @@ let {
   input,
   ln,
   runFlow,
-  saveState,
   sec,
   speech,
   sspk,
@@ -13,6 +12,7 @@ let {
 let {
   heading,
   hr,
+  saveState,
 } = require('../lib');
 
 let lv = require('.');
@@ -22,7 +22,7 @@ module.exports = ctx => runFlow({
     await clr();
 
     ctx.st.levelId = 'fyrya';
-    saveState(ctx.st);
+    saveState(ctx);
 
     await heading(`City of Fyrya`);
     await ln();
@@ -71,7 +71,7 @@ module.exports = ctx => runFlow({
     await ln();
 
     ctx.st.fyrya.firstTime = false;
-    saveState(ctx.st);
+    saveState(ctx);
   },
 
   EV2000: async () => {

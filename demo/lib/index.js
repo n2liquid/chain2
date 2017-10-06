@@ -3,4 +3,6 @@ module.exports = {
   encounter: require('./encounter'),
   heading: require('./heading'),
   hr: require('./hr'),
+  loadState: require('./loadState'),
+  saveState: require('./saveState'),
 };

@@ -4,7 +4,6 @@ let {
   input,
   ln,
   runFlow,
-  saveState,
   sdl,
   sec,
   speech,
@@ -15,6 +14,7 @@ let {
   encounter,
   heading,
   hr,
+  saveState,
 } = require('../lib');
 
 module.exports = ctx => runFlow({
@@ -22,7 +22,7 @@ module.exports = ctx => runFlow({
     await clr();
 
     ctx.st.levelId = 'fyryaDungeon1F';
-    saveState(ctx.st);
+    saveState(ctx);
 
     await heading(`Fyrya Dungeon 1F`);
     await ln();
@@ -48,6 +48,6 @@ module.exports = ctx => runFlow({
     }
 
     ctx.st.fyryaDungeon1F.firstTime = false;
-    saveState(ctx.st);
+    saveState(ctx);
   },
 });

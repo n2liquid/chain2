@@ -3,12 +3,12 @@ let {
   clr,
   ln,
   runFlow,
-  saveState,
   sdl,
 } = require('chain');
 
 let {
   heading,
+  saveState,
 } = require('../lib');
 
 let lv = require('.');
@@ -17,7 +17,7 @@ let newGame = async ctx => {
   ctx.st = ctx.originalSt;
   ctx.st.gameStarted = true;
 
-  saveState(ctx.st);
+  saveState(ctx);
 
   await ln(`<sdl:10>Game start!<w>`);
   await ln();
