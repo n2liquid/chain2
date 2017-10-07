@@ -1,4 +1,3 @@
-// TODO: Load foeGroup / foes from ctx.
 // TODO: Implement real monster actions.
 // TODO: Calculate and award real EXP.
 // TODO: Generate and award real drops.
@@ -45,14 +44,12 @@ module.exports = async (ctx, opt) => {
 
   btst.entities = {};
 
-  //let foeGroup = ctx.foeGroups[opt.foeGroup];
+  let foeGroup = ctx.foeGroups[opt.foeGroup];
 
-  let foeGroup = { foes: [
-    { name: 'Slime', active: true, hp: 2, maxHp: 10, mp: 0, maxMp: 0 },
-    { name: 'Slime', active: true, hp: 2, maxHp: 10, mp: 0, maxMp: 0 },
-  ]};
-
-  let foes = foeGroup.foes.map(x => cloneDeep(x));
+  let foes = foeGroup.foes.map(x => Object.assign({},
+    ctx.foes[x.id],
+    x
+  ));
 
   for (let [i, x] of foes.entries()) {
     btst.entities[`F${i + 1 }`] = x;
@@ -116,7 +113,9 @@ module.exports = async (ctx, opt) => {
                     return;
                   }
 
-                  if (!btst.entities[x]) {
+                  let y = btst.entities[x];
+
+                  if (!y || !y.active) {
                     continue;
                   }
 

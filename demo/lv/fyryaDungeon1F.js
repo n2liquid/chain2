@@ -39,7 +39,7 @@ module.exports = ctx => runFlow({
     await ln();
 
     let battleResult = await encounter(ctx, {
-      foeGroup: 1000,
+      foeGroup: 1010,
       ambushType: 'partyUnprepared',
     });
 
