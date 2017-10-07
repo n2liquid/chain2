@@ -1,3 +1,4 @@
+// TODO: Calculate real hit points.
 // TODO: Calculate and award real EXP.
 // TODO: Generate and award real drops.
 // TODO: Implement item usage.
