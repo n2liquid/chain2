@@ -1,4 +1,3 @@
-// TODO: Implement real monster actions.
 // TODO: Calculate and award real EXP.
 // TODO: Generate and award real drops.
 // TODO: Implement item usage.
