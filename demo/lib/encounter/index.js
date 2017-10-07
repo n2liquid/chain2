@@ -1,4 +1,3 @@
-// TODO: Load party from ctx.st.
 // TODO: Load foeGroup / foes from ctx.
 // TODO: Implement real monster actions.
 // TODO: Calculate and award real EXP.
@@ -59,11 +58,7 @@ module.exports = async (ctx, opt) => {
     btst.entities[`F${i + 1 }`] = x;
   }
 
-  //let { party } = ctx.st;
-
-  let party = [
-    { name: 'Elmina', active: true, hp: 60, maxHp: 60, mp: 10, maxMp: 10 },
-  ];
+  let { party } = ctx.st;
 
   for (let [i, x] of party.entries()) {
     btst.entities[`P${i + 1 }`] = x;
@@ -76,7 +71,8 @@ module.exports = async (ctx, opt) => {
 
     for (let [i, x] of foes.entries()) {
       x.active && await ln(
-        `  ${x.name}[F${i + 1}]: ${x.hp}/${x.maxHp} HP, ${x.mp}/${x.maxMp} MP`
+        `  ${x.name}[F${i + 1}]: ` +
+        `${x.hp}/${x.maxHp} HP, ${x.mp}/${x.maxMp} MP`
       );
     }
 
@@ -84,7 +80,8 @@ module.exports = async (ctx, opt) => {
 
     for (let [i, x] of party.entries()) {
       x.active && await ln(
-        `  ${x.name}[P${i + 1}]: ${x.hp}/${x.maxHp} HP, ${x.mp}/${x.maxMp} MP`
+        `  ${x.name}[P${i + 1}]: ` +
+        `${x.hp}/${x.maxHp} HP, ${x.mp}/${x.maxMp} MP`
       );
     }
 
