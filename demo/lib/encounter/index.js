@@ -1,9 +1,10 @@
-// TODO: Calculate real hit points.
+// TODO: Implement attack and guard skills.
 // TODO: Calculate and award real EXP.
 // TODO: Generate and award real drops.
 // TODO: Implement item usage.
-// TODO: Implement guarding.
 // TODO: Implement fleeing.
+// TODO: Implement other hero / enemy attributes (MATK,
+// MDEF, AGI, LUCK).
 
 let cloneDeep = require('lodash/cloneDeep');
 
