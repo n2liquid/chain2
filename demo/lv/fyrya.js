@@ -186,10 +186,12 @@ module.exports = ctx => runFlow({
     await ln(`Please enter your name:`);
     await ln();
 
-    let { chara } = ctx.st;
+    let { party } = ctx.st;
 
-    let name = chara[1000].name = await input({
-      default: chara[1000].name,
+    let elmina = party.find(x => x.id === 1000);
+
+    let name = elmina.name = await input({
+      default: elmina.name,
       maxLength: 10,
     });
 

@@ -2,6 +2,10 @@ let {
   ln,
 } = require('chain');
 
+let animate = require('../animate');
+
+let $ = document.querySelector.bind(document);
+
 module.exports = async (btst, aId, bId) => {
   let a = btst.entities[aId];
   let b = btst.entities[bId];
@@ -40,6 +44,7 @@ module.exports = async (btst, aId, bId) => {
 
   dmg = Math.round(dmg);
 
+  animate($('.storyArea'), 'shake');
   await ln(`${bLabel} loses ${dmg} HP.<w>`);
 
   b.hp = Math.max(0, b.hp - dmg);

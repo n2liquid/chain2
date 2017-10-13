@@ -138,6 +138,7 @@
 
 .shake {
   animation-name: shake;
+  animation-duration: 0.4s;
 }
 
 @keyframes headShake {
