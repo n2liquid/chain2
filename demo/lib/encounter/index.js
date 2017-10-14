@@ -200,14 +200,14 @@ module.exports = async (ctx, opt) => {
         (acc, x) => acc + x.exp, 0
       );
 
+      await ln(`Got ${expReward} EXP.<w>`);
+
       for (let x of btst.party) {
         if (!x.active) {
           continue;
         }
 
         x.exp += expReward;
-
-        await ln(`${x.name} got ${expReward} EXP.<w>`);
 
         while (x.exp >= x.nextLvExp) {
           x.nextLvExp *= 2;
