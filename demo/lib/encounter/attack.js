@@ -44,12 +44,13 @@ module.exports = async (btst, aId, bId) => {
 
   dmg = Math.round(dmg);
 
-  animate($('.storyArea'), 'shake');
+  animate('.storyArea', 'shake');
   await ln(`${bLabel} loses ${dmg} HP.<w>`);
 
   b.hp = Math.max(0, b.hp - dmg);
 
   if (!b.hp) {
+    b.killed = true;
     b.active = false;
 
     await ln(`${bLabel} is no more.<w>`);

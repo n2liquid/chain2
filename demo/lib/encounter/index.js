@@ -1,5 +1,4 @@
 // TODO: Implement attack and guard skills.
-// TODO: Calculate and award real EXP.
 // TODO: Generate and award real drops.
 // TODO: Implement item usage.
 // TODO: Implement fleeing.
@@ -47,18 +46,18 @@ module.exports = async (ctx, opt) => {
 
   let foeGroup = ctx.foeGroups[opt.foeGroup];
 
-  let foes = foeGroup.foes.map(x => Object.assign({},
+  btst.foes = foeGroup.foes.map(x => Object.assign({},
     ctx.foes[x.id],
     x
   ));
 
-  for (let [i, x] of foes.entries()) {
+  for (let [i, x] of btst.foes.entries()) {
     btst.entities[`F${i + 1 }`] = x;
   }
 
-  let { party } = ctx.st;
+  btst.party = ctx.st.party;
 
-  for (let [i, x] of party.entries()) {
+  for (let [i, x] of btst.party.entries()) {
     btst.entities[`P${i + 1 }`] = x;
   }
 
@@ -67,7 +66,7 @@ module.exports = async (ctx, opt) => {
   let printStatus = async () => {
     await sdl(0);
 
-    for (let [i, x] of foes.entries()) {
+    for (let [i, x] of btst.foes.entries()) {
       x.active && await ln(
         `  ${x.name}[F${i + 1}]: ` +
         `${x.hp}/${x.maxHp} HP, ${x.mp}/${x.maxMp} MP`
@@ -76,7 +75,7 @@ module.exports = async (ctx, opt) => {
 
     await ln();
 
-    for (let [i, x] of party.entries()) {
+    for (let [i, x] of btst.party.entries()) {
       x.active && await ln(
         `  ${x.name}[P${i + 1}]: ` +
         `${x.hp}/${x.maxHp} HP, ${x.mp}/${x.maxMp} MP`
@@ -141,6 +140,10 @@ module.exports = async (ctx, opt) => {
       },
 
       foes: async id => {
+        if (!btst.entities.P1.active) {
+          return;
+        }
+
         await attack(btst, id, 'P1');
       },
     };
@@ -161,7 +164,7 @@ module.exports = async (ctx, opt) => {
 
       await sdl(10);
 
-      let ys = { party, foes }[x];
+      let ys = btst[x];
 
       for (let [i, y] of ys.entries()) {
         if (!y.active) {
@@ -174,7 +177,7 @@ module.exports = async (ctx, opt) => {
       }
     }
 
-    if (party.every(x => !x.active)) {
+    if (btst.party.every(x => !x.active)) {
       await ln(`The party has fallen.<w>`);
       await clr();
       await sec(1);
@@ -182,9 +185,38 @@ module.exports = async (ctx, opt) => {
       return 'defeat';
     }
 
-    if (foes.every(x => !x.active)) {
-      await ln(`Elmina got 10 EXP.<w>`);
-      await ln(`Elmina got 3 GP.<w>`);
+    if (btst.foes.every(x => !x.active)) {
+      let killedFoes = btst.foes.filter(x => x.killed);
+
+      let gpReward = killedFoes.reduce(
+        (acc, x) => acc + x.gp, 0
+      );
+
+      ctx.st.gp += gpReward;
+
+      await ln(`Got ${gpReward} GP.<w>`);
+
+      let expReward = killedFoes.reduce(
+        (acc, x) => acc + x.exp, 0
+      );
+
+      for (let x of btst.party) {
+        if (!x.active) {
+          continue;
+        }
+
+        x.exp += expReward;
+
+        await ln(`${x.name} got ${expReward} EXP.<w>`);
+
+        while (x.exp >= x.nextLvExp) {
+          x.nextLvExp *= 2;
+          ++x.lv;
+
+          await ln(`${x.name} level up! (LV. ${x.lv})<w>`);
+        }
+      }
+
       await clr();
       await sec(1);
 
