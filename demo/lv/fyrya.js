@@ -1,3 +1,7 @@
+// TODO: Give the party real potions and GP.
+// TODO: Implement item shop.
+// TODO: Implement weapon shop.
+
 let {
   choice,
   clr,

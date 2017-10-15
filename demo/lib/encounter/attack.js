@@ -1,3 +1,5 @@
+// TODO: Take equipped weapons into account.
+
 let {
   ln,
 } = require('chain');
@@ -46,6 +48,11 @@ module.exports = async (btst, aId, bId) => {
 
   await animate('.storyArea', 'shake');
   await ln(`${bLabel} loses ${dmg} HP.<w>`);
+
+  // TODO: Undo this party invicibility hack.
+  if (bId[0] === 'P') {
+    dmg = 0;
+  }
 
   b.hp = Math.max(0, b.hp - dmg);
 

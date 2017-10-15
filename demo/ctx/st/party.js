@@ -1,3 +1,5 @@
+// TODO: Fix party data structure.
+
 module.exports = [
   {
     id: 1000,

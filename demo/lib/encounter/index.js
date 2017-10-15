@@ -1,6 +1,6 @@
+// TODO: Implement item usage.
 // TODO: Implement attack and guard skills.
 // TODO: Generate and award real drops.
-// TODO: Implement item usage.
 // TODO: Implement fleeing.
 // TODO: Implement other hero / enemy attributes (MATK,
 // MDEF, AGI, LUCK).
